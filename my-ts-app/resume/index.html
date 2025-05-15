@@ -54,8 +54,9 @@
   </style>
 </head>
 <body>
+  <div id="resume">
   <h1>Cameron Cashwell</h1>
-  <p>Software Developer | Web | CMS<br />Richmond, Virginia, United States</p>
+  <p>Software Developer | Websites | CMS | Web Apps | Strategy | Portals | Manager <br />Richmond, Virginia, United States</p>
   <p>Email: camnewjob@proton.me<br />LinkedIn: <a href="https://www.linkedin.com/in/cam-code">cam-code</a></p>
 
   <div class="section">
@@ -129,6 +130,10 @@
     </ul>
   </div>
 
+  </div>
+
+  <button id="downloadBtn">Download Resume as PDF</button>
+
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const jobDescs = document.querySelectorAll(".job .job-desc");
@@ -137,11 +142,6 @@
     // Initially show all descriptions
     jobDescs.forEach(desc => desc.classList.add("show"));
 
-    // Collapse after 5 seconds
-    setTimeout(() => {
-      jobDescs.forEach(desc => desc.classList.remove("show"));
-    }, 5000);
-
     // Add click-to-toggle functionality
     jobTitles.forEach(title => {
       title.addEventListener("click", () => {
@@ -149,7 +149,29 @@
         desc.classList.toggle("show");
       });
     });
+
+  document.getElementById("downloadBtn").addEventListener("click", function () {
+    const resume = document.getElementById("resume");
+
+    // Ensure all job descriptions are expanded
+    resume.querySelectorAll(".job .job-desc").forEach(desc => {
+      desc.classList.add("show");
+    });
+
+    // PDF options
+    const opt = {
+      margin:       [0.3, 0.3, 0.3, 0.3],  // top, left, bottom, right
+      filename:     'Cameron_Cashwell_Resume.pdf',
+      image:        { type: 'jpeg', quality: 0.98 },
+      html2canvas:  { scale: 2, useCORS: true, scrollY: 0 },
+      jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' },
+      pagebreak:    { mode: ['css', 'legacy'] }
+    };
+
+    html2pdf().set(opt).from(resume).save();
+  });
   });
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </body>
 </html>
